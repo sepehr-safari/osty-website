@@ -27,10 +27,12 @@ export const useSubscribe = () => {
 
       subscriptionRef.current = ndk.subscribe(filters, opts);
       subscriptionRef.current.on('event', (event: NDKEvent) => {
-        if (opts?.fetchProfile) {
+        if (opts?.fetchProfile == true) {
           event.author.fetchProfile().then(() => {
             setEvents((prev) => [...prev, event]);
           });
+        } else {
+          setEvents((prev) => [...prev, event]);
         }
       });
       subscriptionRef.current.on('eose', () => {
