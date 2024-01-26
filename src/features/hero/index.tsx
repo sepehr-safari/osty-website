@@ -14,7 +14,7 @@ export const Hero = () => {
   const [pm, setPm] = useState('npm');
 
   return (
-    <div className="pb-12 pt-32 flex flex-col gap-6 w-full text-center bg-gradient-to-b from-[#33006e99] to-transparent">
+    <div className="pb-12 pt-44 flex flex-col gap-6 w-full text-center bg-gradient-to-b from-[#33006e99] to-transparent">
       <img src="/osty.png" className="w-24 h-24 mx-auto " />
 
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
