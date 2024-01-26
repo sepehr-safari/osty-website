@@ -1,3 +1,4 @@
+export * from './banner';
 export * from './footer';
 export * from './hero';
 export * from './latest-notes-demo';

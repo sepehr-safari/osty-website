@@ -1,11 +1,13 @@
-import { Footer, Hero, LatestNotesDemo, Navbar } from '@/features';
+import { Banner, Footer, Hero, LatestNotesDemo, Navbar } from '@/features';
 
 export const HomePage = () => {
   return (
     <>
+      <Banner />
+
       <Navbar />
 
-      <div className="pb-8 flex flex-col items-center w-full">
+      <div className="-mt-28 pb-8 flex flex-col items-center w-full">
         <Hero />
 
         <LatestNotesDemo />
