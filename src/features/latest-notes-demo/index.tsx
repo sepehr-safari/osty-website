@@ -12,6 +12,9 @@ import {
 import { Skeleton } from '@/shared/components/ui/skeleton';
 
 import { useLatestNotesDemo } from './hooks';
+import { ZapModal } from '..';
+import { Button } from '@/shared/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@/shared/components/ui/avatar';
 
 export const LatestNotesDemo = () => {
   const { events } = useLatestNotesDemo();
@@ -29,38 +32,55 @@ export const LatestNotesDemo = () => {
         ))}
 
       {events.map((event) => (
-        <Dialog key={event.id}>
-          <DialogTrigger asChild>
-            <Card
-              key={event.id}
-              className="hover:border-muted-foreground transition-colors duration-200 hover:bg-secondary hover:cursor-pointer"
-            >
-              <CardContent className="mt-6">
-                <p className="text-lg font-semibold">{event.author.profile?.name}</p>
+        <Card
+          key={event.id}
+          className="relative hover:border-muted-foreground transition-colors duration-200 hover:bg-secondary hover:cursor-pointer"
+        >
+          <CardContent className="mt-6 flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <Avatar>
+                <AvatarImage src={event.author.profile?.image} />
+                <AvatarFallback>{event.author.profile?.name?.[0]}</AvatarFallback>
+              </Avatar>
 
-                <p className="text-sm text-muted-foreground truncate">{event.content}</p>
+              <p className="text-lg font-semibold">{event.author.profile?.name}</p>
+            </div>
 
-                {event.created_at && (
-                  <p className="text-right text-sm text-gray-500">
-                    {formatRelative(new Date(event.created_at * 1000), new Date())}
-                  </p>
-                )}
-              </CardContent>
-            </Card>
-          </DialogTrigger>
+            <p className="text-sm text-muted-foreground truncate">{event.content}</p>
 
-          <DialogContent className="md:max-w-2xl">
-            <DialogHeader>
-              <DialogTitle>{event.author.profile?.name}</DialogTitle>
-              <DialogDescription>
-                <p>{event.author.profile?.website || event.author.profile?.nip05}</p>
-                <p>{event.author.profile?.bio}</p>
-              </DialogDescription>
-            </DialogHeader>
+            <div className="flex items-center gap-2">
+              <ZapModal target={{ type: 'event', event }}>
+                <Button size="icon" variant="outline" className="z-10">
+                  ⚡️
+                </Button>
+              </ZapModal>
 
-            <p className="leading-7 [overflow-wrap:anywhere]">{event.content}</p>
-          </DialogContent>
-        </Dialog>
+              {event.created_at && (
+                <span className="ml-auto text-sm text-gray-500">
+                  {formatRelative(new Date(event.created_at * 1000), new Date())}
+                </span>
+              )}
+            </div>
+          </CardContent>
+
+          <div className="absolute top-0 left-0 right-0 bottom-0">
+            <Dialog>
+              <DialogTrigger className="w-full h-full" />
+
+              <DialogContent className="md:max-w-2xl">
+                <DialogHeader>
+                  <DialogTitle>{event.author.profile?.name}</DialogTitle>
+                  <DialogDescription>
+                    <p>{event.author.profile?.website || event.author.profile?.nip05}</p>
+                    <p>{event.author.profile?.bio}</p>
+                  </DialogDescription>
+                </DialogHeader>
+
+                <p className="leading-7 [overflow-wrap:anywhere]">{event.content}</p>
+              </DialogContent>
+            </Dialog>
+          </div>
+        </Card>
       ))}
     </div>
   );
